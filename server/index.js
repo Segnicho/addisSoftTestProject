@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import express from "express";
 import dotenv from "dotenv";
-import registrationRoutes from './routes/users.js'
+import userRoutes from './routes/users.js'
 import postRoutes from './routes/posts.js'
 import cors from 'cors';
 
@@ -25,7 +25,7 @@ mongoose.set('strictQuery', false)
 // middlewares
 app.use(cors());
 app.use(express.json());
-app.use("/api/register", registrationRoutes)
+app.use("/api/users", userRoutes)
 app.use("/api/posts", postRoutes)
 
 app.listen(5000, ()=>{
