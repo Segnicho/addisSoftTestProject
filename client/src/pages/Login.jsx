@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Box,
     Card,
@@ -11,22 +11,37 @@ import {
     Label,
     Input,
   } from '@rebass/forms';
+import axios from 'axios';
+import  {useDispatch, useSelector } from 'react-redux'
+
+import {getPosts} from '../actions/index'
 
   function Login() {
-    
+    const dispatch = useDispatch();
+    // const posts = useSelector(state=>state.postReducer.posts)
+  
+    const [username,setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const dispatching = ()=> dispatch(getPosts());
+
+
+    const loginUser = async(e) =>{
+      e.preventDefault()
+      const res = await axios.post('http://localhost:5000/api/users/login', {username, password})      
+      // dispatching();
+      res.data&&window.location.replace('/');
+    }
+
   return (
     <div>
-<Box
-        alignItems = 'center'
-
-    
+<Box alignItems = 'center'
   as='form'
-  onSubmit={e => e.preventDefault()}
+  onSubmit={loginUser}
   py={3}>
 <Flex mx={-2} mb={3}
         alignItems = 'center'
-
 >
+
 <Card
       sx={{
         display :'flex-column',
@@ -44,6 +59,8 @@ import {
       <Input
         id='username'
         name='username'
+        onChange={e=>setUsername(e.target.value)}
+
         />
     </Box>
     
@@ -53,6 +70,8 @@ import {
         type ='password'
         id='password'
         name='password'
+        onChange={e=>setPassword(e.target.value)}
+
       />
     </Box>
     <Button bg='teal' mx="auto" ml={4} mt={3}> LOGIN </Button>
